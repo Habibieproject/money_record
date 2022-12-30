@@ -9,6 +9,7 @@ import 'package:money_record/config/session.dart';
 import 'package:money_record/presentation/controller/c_home.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/page/auth/login_page.dart';
+import 'package:money_record/presentation/page/history/add_history_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -78,49 +79,54 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-                child: ListView(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
-              children: [
-                Text(
-                  "Pengeluaran Hari Ini",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                DView.spaceHeight(),
-                cardToday(context),
-                DView.spaceHeight(20),
-                Center(
-                  child: Container(
-                    height: 5,
-                    width: 80,
-                    decoration: BoxDecoration(
-                        color: AppColor.kColorBackground,
-                        borderRadius: BorderRadius.circular(30)),
+                child: RefreshIndicator(
+              onRefresh: () async {
+                cHome.getAnalysis(cUser.data.idUser!);
+              },
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                children: [
+                  Text(
+                    "Pengeluaran Hari Ini",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
-                ),
-                DView.spaceHeight(30),
-                Text(
-                  "Pengeluaran Minggu Ini",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                DView.spaceHeight(),
-                weekly(),
-                DView.spaceHeight(30),
-                Text(
-                  "Pengeluaran Bulan Ini",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                DView.spaceHeight(),
-                monthly(context),
-              ],
+                  DView.spaceHeight(),
+                  cardToday(context),
+                  DView.spaceHeight(20),
+                  Center(
+                    child: Container(
+                      height: 5,
+                      width: 80,
+                      decoration: BoxDecoration(
+                          color: AppColor.kColorBackground,
+                          borderRadius: BorderRadius.circular(30)),
+                    ),
+                  ),
+                  DView.spaceHeight(30),
+                  Text(
+                    "Pengeluaran Minggu Ini",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  DView.spaceHeight(),
+                  weekly(),
+                  DView.spaceHeight(30),
+                  Text(
+                    "Pengeluaran Bulan Ini",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  DView.spaceHeight(),
+                  monthly(context),
+                ],
+              ),
             ))
           ],
         ));
@@ -184,7 +190,13 @@ class _HomePageState extends State<HomePage> {
                 ],
               )),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => AddHistoryPage())?.then((value) {
+                if (value ?? false) {
+                  cHome.getAnalysis(cUser.data.idUser!);
+                }
+              });
+            },
             leading: const Icon(Icons.add),
             horizontalTitleGap: 0,
             title: const Text("Tambah Baru"),

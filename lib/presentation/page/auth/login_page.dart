@@ -101,7 +101,9 @@ class _LoginPageState extends State<LoginPage> {
                             color: AppColor.kColorPrimary,
                             borderRadius: BorderRadius.circular(30),
                             child: InkWell(
-                              onTap: () => login(),
+                              onTap: () {
+                                login();
+                              },
                               borderRadius: BorderRadius.circular(30),
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(
