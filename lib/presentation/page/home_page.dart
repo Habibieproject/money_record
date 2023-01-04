@@ -2,6 +2,7 @@ import 'package:d_chart/d_chart.dart';
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:money_record/config/app_asset.dart';
 import 'package:money_record/config/app_color.dart';
 import 'package:money_record/config/app_format.dart';
@@ -10,6 +11,9 @@ import 'package:money_record/presentation/controller/c_home.dart';
 import 'package:money_record/presentation/controller/c_user.dart';
 import 'package:money_record/presentation/page/auth/login_page.dart';
 import 'package:money_record/presentation/page/history/add_history_page.dart';
+import 'package:money_record/presentation/page/history/detail_history_page.dart';
+import 'package:money_record/presentation/page/history/history_page.dart';
+import 'package:money_record/presentation/page/history/income_outcome_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -206,7 +210,11 @@ class _HomePageState extends State<HomePage> {
             height: 1,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const IncomeOutcomePage(
+                    type: 'Pemasukkan',
+                  ));
+            },
             leading: const Icon(Icons.south_west),
             horizontalTitleGap: 0,
             title: const Text("Pemasukkan"),
@@ -216,7 +224,11 @@ class _HomePageState extends State<HomePage> {
             height: 1,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const IncomeOutcomePage(
+                    type: 'Pengeluaran',
+                  ));
+            },
             leading: const Icon(Icons.north_east),
             horizontalTitleGap: 0,
             title: const Text("Pengeluaran"),
@@ -226,7 +238,9 @@ class _HomePageState extends State<HomePage> {
             height: 1,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const HistoryPage());
+            },
             leading: const Icon(Icons.history),
             horizontalTitleGap: 0,
             title: const Text("Riwayat"),
@@ -372,28 +386,35 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 16, color: AppColor.kColorBackground),
               )),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
-              Text(
-                'Selengkapnya',
-                style: TextStyle(color: AppColor.kColorPrimary, fontSize: 16),
+        GestureDetector(
+          onTap: () {
+            Get.to(() => DetailhistoryPage(
+                idUser: cUser.data.idUser!,
+                date: DateFormat('yyyy-MM-dd').format(DateTime.now())));
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            margin: const EdgeInsets.fromLTRB(16, 0, 0, 16),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
               ),
-              Icon(
-                Icons.navigate_next,
-                color: AppColor.kColorPrimary,
-              )
-            ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: const [
+                Text(
+                  'Selengkapnya',
+                  style: TextStyle(color: AppColor.kColorPrimary, fontSize: 16),
+                ),
+                Icon(
+                  Icons.navigate_next,
+                  color: AppColor.kColorPrimary,
+                )
+              ],
+            ),
           ),
         )
       ]),
