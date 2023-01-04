@@ -125,7 +125,9 @@ class _IncomeOutcomePageState extends State<IncomeOutcomePage> {
                     borderRadius: BorderRadius.circular(4),
                     onTap: () {
                       Get.to(() => DetailhistoryPage(
-                          idUser: cUser.data.idUser!, date: history.date!));
+                          idUser: cUser.data.idUser!,
+                          date: history.date!,
+                          type: history.type!));
                     },
                     child: Row(children: [
                       DView.spaceWidth(),
